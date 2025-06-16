@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pembayaran</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #0f172a;
+      background-image: 
+        linear-gradient(135deg, rgba(255,255,255,0.02) 25%, transparent 25%),
+        linear-gradient(225deg, rgba(255,255,255,0.02) 25%, transparent 25%);
+      background-size: 40px 40px;
+      background-position: center;
+      color: #fff;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 480px;
+      margin: auto;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 25px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .intro {
+      text-align: center;
+      font-size: 15px;
+      margin-bottom: 30px;
+      opacity: 0.9;
+    }
+
+    .box {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 14px;
+      margin-bottom: 15px;
+      overflow: hidden;
+      transition: 0.3s ease-in-out;
+    }
+
+    .box-header {
+      padding: 16px 20px;
+      cursor: pointer;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 16px;
+    }
+
+    .box-header:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .box-content {
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.4s ease, opacity 0.3s ease;
+      padding: 0 20px;
+      text-align: center;
+    }
+
+    .box.open .box-content {
+      max-height: 500px;
+      opacity: 1;
+      padding: 20px;
+    }
+
+    .text-info {
+      margin-top: 8px;
+      font-size: 15px;
+    }
+
+    .arrow {
+      transition: transform 0.3s ease;
+    }
+
+    .box.open .arrow {
+      transform: rotate(180deg);
+    }
+
+    .wa-button {
+      display: inline-block;
+      background-color: #25D366;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 16px;
+      text-decoration: none;
+      margin-top: 10px;
+      box-shadow: 0 0 10px rgba(37, 211, 102, 0.5);
+      transition: 0.3s;
+    }
+
+    .wa-button:hover {
+      background-color: #1ebe5d;
+    }
+
+    .copy-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .copy-input {
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .copy-button {
+      padding: 6px 14px;
+      background-color: #3b82f6;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .copy-button:hover {
+      background-color: #2563eb;
+    }
+
+    .alert {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #16a34a;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      display: none;
+      z-index: 999;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>👋 Selamat Datang!</h2>
+    <p class="intro">
+      Kamu berada di halaman pembayaran resmi kami.  
+      Silakan pilih metode pembayaran di bawah ini.  
+      Klik tombol WhatsApp jika ingin meminta QR langsung dari admin. 🙏
+    </p>
+
+    <!-- QRIS via WhatsApp -->
+    <div class="box" id="box-qris">
+      <div class="box-header" onclick="toggleBox('box-qris')">
+        <span>🔳 QRIS</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="box-content">
+        <a href="https://wa.me/6287798681622?text=Halo%2C+saya+mau+minta+QRIS+untuk+pembayaran" class="wa-button" target="_blank">
+          Minta QR via WhatsApp
+        </a>
+      </div>
+    </div>
+
+    <!-- DANA -->
+    <div class="box" id="box-dana">
+      <div class="box-header" onclick="toggleBox('box-dana')">
+        <span>💰 DANA</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="box-content">
+        <p class="text-info">Nomor DANA:</p>
+        <div class="copy-box">
+          <input type="text" id="danaInput" class="copy-input" value="087798681622" readonly>
+        </div>
+        <p class="text-info">a.n RennMC</p>
+      </div>
+    </div>
+
+    <!-- GoPay -->
+    <div class="box" id="box-gopay">
+      <div class="box-header" onclick="toggleBox('box-gopay')">
+        <span>📱 GoPay</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="box-content">
+        <p class="text-info">Nomor GoPay:</p>
+        <div class="copy-box">
+          <input type="text" id="gopayInput" class="copy-input" value="087798681622" readonly>
+        </div>
+        <p class="text-info">a.n Renn</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="alert" class="alert">Nomor berhasil disalin!</div>
+
+  <script>
+    function toggleBox(id) {
+      const allBoxes = document.querySelectorAll('.box');
+      allBoxes.forEach(box => {
+        if (box.id === id) {
+          box.classList.toggle('open');
+        } else {
+          box.classList.remove('open');
+        }
+      });
+    }
+
+    function copyText(inputId) {
+      const input = document.getElementById(inputId);
+      navigator.clipboard.writeText(input.value).then(() => {
+        const alertBox = document.getElementById("alert");
+        alertBox.style.display = "block";
+        setTimeout(() => {
+          alertBox.style.display = "none";
+        }, 2000);
+      });
+    }
+  </script>
+
+</body>
+</html>
